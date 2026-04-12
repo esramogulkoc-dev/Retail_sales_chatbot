@@ -1,4 +1,4 @@
-# AtliQ Tees — Natural Language to SQL
+# Retails — Natural Language to SQL
 
 A retail Q&A system that lets users query a t-shirt inventory database using plain English. The system converts natural language questions into SQL, executes them, and returns human-readable answers.
 
