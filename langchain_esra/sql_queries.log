@@ -1,0 +1,89 @@
+2026-04-19 01:02:07,909 | INFO | Q: How many total t-shirts are left in stock?
+2026-04-19 01:02:08,635 | INFO | DIRECT_SQL: SELECT SUM(`stock_quantity`) FROM `t_shirts`
+2026-04-19 01:02:08,636 | INFO | DIRECT_RESULT: [(4217,)]
+2026-04-19 01:02:08,637 | INFO | STRATEGY: direct
+
+2026-04-19 01:02:21,724 | INFO | Q: How many red color Adidas t-shirts do we have?
+2026-04-19 01:02:22,153 | INFO | DIRECT_SQL: SELECT `stock_quantity` FROM `t_shirts` WHERE `brand` = 'Adidas' AND `color` = 'Red'
+2026-04-19 01:02:22,154 | INFO | DIRECT_RESULT: [(43,), (28,), (18,), (58,), (38,)]
+2026-04-19 01:02:22,155 | INFO | STRATEGY: direct
+
+2026-04-19 01:04:04,739 | INFO | Q: What is the total inventory value of all extra large size t-shirts?
+2026-04-19 01:04:05,158 | INFO | DIRECT_SQL: SELECT SUM(`price` * `stock_quantity`) FROM `t_shirts` WHERE `size` = 'XL'
+2026-04-19 01:04:05,159 | INFO | DIRECT_RESULT: [(22240,)]
+2026-04-19 01:04:05,159 | INFO | STRATEGY: direct
+
+2026-04-19 01:04:14,548 | INFO | Q: If we have to sell all Van Huesen  t-shirts, what would be the total revenue with discount?
+2026-04-19 01:04:15,156 | INFO | DIRECT_SQL: SELECT SUM(`t`.price * (1 - `d`.pct_discount / 100) * `t`.stock_quantity) 
+FROM t_shirts `t` 
+LEFT JOIN discounts `d` ON `t`.t_shirt_id = `d`.t_shirt_id 
+WHERE `t`.brand = 'Van Huesen'
+2026-04-19 01:04:15,157 | INFO | DIRECT_RESULT: [(19439.63,)]
+2026-04-19 01:04:15,157 | INFO | STRATEGY: direct
+
+2026-04-19 01:04:25,987 | INFO | Q: Which brand has the highest average price per shirt?
+2026-04-19 01:04:26,459 | INFO | DIRECT_SQL: SELECT `brand` FROM t_shirts GROUP BY `brand` ORDER BY AVG(`price`) DESC LIMIT 1
+2026-04-19 01:04:26,461 | INFO | DIRECT_RESULT: [('Nike',)]
+2026-04-19 01:04:26,461 | INFO | STRATEGY: direct
+
+2026-04-19 01:04:34,995 | INFO | Q: What is the total inventory value of all extra large size t-shirts?
+2026-04-19 01:04:35,675 | INFO | DIRECT_SQL: SELECT SUM(`price` * `stock_quantity`) FROM `t_shirts` WHERE `size` = 'XL'
+2026-04-19 01:04:35,676 | INFO | DIRECT_RESULT: [(22240,)]
+2026-04-19 01:04:35,676 | INFO | STRATEGY: direct
+
+2026-04-19 01:04:54,612 | INFO | Q: How many red color Adidas t-shirts do we have?
+2026-04-19 01:04:55,026 | INFO | DIRECT_SQL: SELECT `stock_quantity` FROM `t_shirts` WHERE `brand` = 'Adidas' AND `color` = 'Red'
+2026-04-19 01:04:55,027 | INFO | DIRECT_RESULT: [(43,), (28,), (18,), (58,), (38,)]
+2026-04-19 01:04:55,028 | INFO | STRATEGY: direct
+
+2026-04-19 01:07:42,498 | INFO | Q: How many total t-shirts are left in stock?
+2026-04-19 01:07:42,739 | INFO | DIRECT_SQL: SELECT SUM(`stock_quantity`) FROM `t_shirts`
+2026-04-19 01:07:42,740 | INFO | DIRECT_RESULT: [(4217,)]
+2026-04-19 01:07:42,740 | INFO | STRATEGY: direct
+
+2026-04-19 01:07:47,420 | INFO | Q: How many red color Adidas t-shirts do we have?
+2026-04-19 01:07:47,687 | INFO | DIRECT_SQL: SELECT `stock_quantity` FROM `t_shirts` WHERE `brand` = 'Adidas' AND `color` = 'Red'
+2026-04-19 01:07:47,688 | WARNING | DIRECT_FAILED: question implies aggregation but SQL has no SUM/COUNT/AVG/MIN/MAX and no ORDER BY + LIMIT
+2026-04-19 01:07:48,400 | INFO | FEWSHOT_SQL: SELECT `brand`, `color`, SUM(`stock_quantity`) AS total_stock FROM `t_shirts` WHERE `color` = 'Red' AND `brand` = 'Adidas' LIMIT 5
+2026-04-19 01:07:48,400 | INFO | FEWSHOT_RESULT: [('Adidas', 'Red', 185)]
+2026-04-19 01:07:48,400 | INFO | STRATEGY: fewshot
+
+2026-04-19 01:09:17,775 | INFO | Q: How many red color Adidas t-shirts do we have?
+2026-04-19 01:09:18,308 | INFO | DIRECT_SQL: SELECT `stock_quantity` FROM `t_shirts` WHERE `brand` = 'Adidas' AND `color` = 'Red'
+2026-04-19 01:09:18,309 | WARNING | DIRECT_FAILED: question implies aggregation but SQL has no SUM/COUNT/AVG/MIN/MAX and no ORDER BY + LIMIT
+2026-04-19 01:09:19,026 | INFO | FEWSHOT_SQL: SELECT `brand`, `color`, SUM(`stock_quantity`) FROM `t_shirts` WHERE `color` = 'Red' AND `brand` = 'Adidas' GROUP BY `brand`, `color` LIMIT 5
+2026-04-19 01:09:19,027 | INFO | FEWSHOT_RESULT: [('Adidas', 'Red', 185)]
+2026-04-19 01:09:19,027 | INFO | STRATEGY: fewshot
+
+2026-04-19 01:11:51,020 | INFO | Q: How many total t-shirts are left in stock?
+2026-04-19 01:11:51,719 | INFO | DIRECT_SQL: SELECT SUM(`stock_quantity`) FROM `t_shirts`
+2026-04-19 01:11:51,720 | INFO | DIRECT_RESULT: [(4217,)]
+2026-04-19 01:11:51,720 | INFO | STRATEGY: direct
+
+2026-04-19 01:12:04,739 | INFO | Q: How many red color Adidas t-shirts do we have?
+2026-04-19 01:12:05,226 | INFO | DIRECT_SQL: SELECT `stock_quantity` FROM `t_shirts` WHERE `brand` = 'Adidas' AND `color` = 'Red'
+2026-04-19 01:12:05,227 | WARNING | DIRECT_FAILED: question implies aggregation but SQL has no SUM/COUNT/AVG/MIN/MAX and no ORDER BY + LIMIT
+2026-04-19 01:12:05,843 | INFO | FEWSHOT_SQL: SELECT SUM(`stock_quantity`) FROM `t_shirts` WHERE `brand` = 'Adidas' AND `color` = 'Red'
+2026-04-19 01:12:05,843 | INFO | FEWSHOT_RESULT: [(185,)]
+2026-04-19 01:12:05,843 | INFO | STRATEGY: fewshot
+
+2026-04-19 01:12:23,835 | INFO | Q: What is the total inventory value of all extra large size t-shirts?
+2026-04-19 01:12:24,176 | INFO | DIRECT_SQL: SELECT SUM(`price` * `stock_quantity`) FROM `t_shirts` WHERE `size` = 'XL'
+2026-04-19 01:12:24,177 | INFO | DIRECT_RESULT: [(22240,)]
+2026-04-19 01:12:24,177 | INFO | STRATEGY: direct
+
+2026-04-19 01:12:36,952 | INFO | Q: If we have to sell all Van Huesen  t-shirts, what would be the total revenue with discount?
+2026-04-19 01:12:37,790 | INFO | DIRECT_SQL: SELECT SUM(`t_shirts`.`price` * (1 - `discounts`.`pct_discount` / 100) * `t_shirts`.`stock_quantity`) 
+FROM `t_shirts` 
+LEFT JOIN `discounts` ON `t_shirts`.`t_shirt_id` = `discounts`.`t_shirt_id` 
+WHERE `t_shirts`.`brand` = 'Van Huesen'
+2026-04-19 01:12:37,791 | INFO | DIRECT_RESULT: [(19439.63,)]
+2026-04-19 01:12:37,791 | INFO | STRATEGY: direct
+
+2026-04-19 01:15:18,081 | INFO | Q: How many red color Adidas t-shirts do we have?
+2026-04-19 01:15:18,485 | INFO | DIRECT_SQL: SELECT `stock_quantity` FROM `t_shirts` WHERE `brand` = 'Adidas' AND `color` = 'Red'
+2026-04-19 01:15:18,485 | WARNING | DIRECT_FAILED: question implies aggregation but SQL has no SUM/COUNT/AVG/MIN/MAX and no ORDER BY + LIMIT
+2026-04-19 01:15:18,774 | INFO | FEWSHOT_SQL: SELECT SUM(`stock_quantity`) FROM `t_shirts` WHERE `brand` = 'Adidas' AND `color` = 'Red'
+2026-04-19 01:15:18,774 | INFO | FEWSHOT_RESULT: [(185,)]
+2026-04-19 01:15:18,775 | INFO | STRATEGY: fewshot
+

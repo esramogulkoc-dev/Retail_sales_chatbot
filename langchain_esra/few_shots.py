@@ -1,42 +1,44 @@
 few_shots = [
     {
-        "input": "How many total t-shirts are left in stock?",
-        "query": "SELECT SUM(stock_quantity) FROM t_shirts;",
-        "answer": "The total number of t-shirts left in stock is {result}"
+        "question": "What is the total stock quantity available for each brand, ordered from highest to lowest?",
+        "SQLQuery": "SELECT brand, SUM(stock_quantity) AS total_stock FROM t_shirts GROUP BY brand ORDER BY total_stock DESC",
+        "SQLResult": "Result of the SQL query",
+        "answer": "[('Levi', 1128), ('Nike', 1044), ('Adidas', 1029), ('Van Huesen', 1016)]"
     },
     {
-        "input": "How many t-shirts do we have for Nike in small size?",
-        "query": "SELECT stock_quantity FROM t_shirts WHERE brand='Nike' AND size='S';",
-        "answer": "We have {result} Nike t-shirts in S size"
+        "question": "Which brand has the highest average price per shirt, and what is that average price?",
+        "SQLQuery": "SELECT brand, AVG(price) as avg_price FROM t_shirts GROUP BY brand ORDER BY avg_price DESC LIMIT 1",
+        "SQLResult": "Result of the SQL query",
+        "answer": "[('Nike', 33.7)]"
     },
     {
-        "input": "What is the total price of all inventory for S-size t-shirts?",
-        "query": "SELECT SUM(price * stock_quantity) FROM t_shirts WHERE color='Red';",
-        "answer": "The total inventory value for red color t-shirts is {result}"
+        "question": "What is the total stock per size?",
+        "SQLQuery": "SELECT size, SUM(stock_quantity) AS total_stock FROM t_shirts GROUP BY size",
+        "SQLResult": "Result of the SQL query",
+        "answer": "[('L', 760), ('M', 806), ('S', 855), ('XL', 936), ('XS', 860)]"
     },
     {
-        "input": "How much sales will we generate if we sell all Adidas shirts?",
-        "query": "SELECT SUM(t.price * (1 - d.pct_discount / 100) * t.stock_quantity) AS total_discounted_revenue FROM t_shirts t JOIN discounts d ON t.t_shirt_id = d.t_shirt_id WHERE t.brand = 'Adidas';",
-        "answer": "If we sell all Adidas t-shirts, we will generate {result} in sales"
+        "question": "What is the total inventory value of all small size t-shirts?",
+        "SQLQuery": "SELECT SUM(price * stock_quantity) AS total_value FROM t_shirts WHERE size = 'S'",
+        "SQLResult": "Result of the SQL query",
+        "answer": "26441"
     },
     {
-        "input": "How many different colors of t-shirts do we have?",
-        "query": "SELECT COUNT(DISTINCT color) FROM t_shirts;",
-        "answer": "We have {result} different colors of t-shirts"
+        "question": "If we have to sell all Adidas t-shirts, what would be the total revenue with discount?",
+        "SQLQuery": "SELECT SUM(t.price * (1 - d.pct_discount / 100) * t.stock_quantity) AS total_discounted_revenue FROM t_shirts t JOIN discounts d ON t.t_shirt_id = d.t_shirt_id WHERE t.brand = 'Adidas'",
+        "SQLResult": "Result of the SQL query",
+        "answer": "21478.59"
     },
     {
-        "input": "What is the average price of Nike t-shirts?",
-        "query": "SELECT ROUND(AVG(price), 2) FROM t_shirts WHERE brand='Nike';",
-        "answer": "The average price of Nike t-shirts is {result}"
+        "question": "How many white color Levi t-shirts do we have?",
+        "SQLQuery": "SELECT SUM(`stock_quantity`) FROM `t_shirts` WHERE `color` = 'White' AND `brand` = 'Levi'",
+        "SQLResult": "Result of the SQL query",
+        "answer": "341"
     },
     {
-        "input": "How many t-shirts do we have from each brand?",
-        "query": "SELECT brand, SUM(stock_quantity) as total_stock FROM t_shirts GROUP BY brand ORDER BY total_stock DESC;",
-        "answer": "Stock by brand: {result}"
+        "question": "How many red color Adidas t-shirts do we have?",
+        "SQLQuery": "SELECT SUM(`stock_quantity`) FROM `t_shirts` WHERE `brand` = 'Adidas' AND `color` = 'Red'",
+        "SQLResult": "Result of the SQL query",
+        "answer": "185"
     },
-        {
-            "input": "Which size has the most t-shirts in stock?",
-            "query": "SELECT size FROM t_shirts GROUP BY size ORDER BY SUM(stock_quantity) DESC LIMIT 1;",
-            "answer": "The size with the most t-shirts in stock is {result}"
-        }
-    ]
+]
