@@ -19,3 +19,10 @@ secrets.py
 
 # Claude Code
 CLAUDE.md
+
+# Runtime logs
+sql_queries.log
+*.log
+
+# Interview prep notes (personal)
+interview.md
