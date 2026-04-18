@@ -1,17 +1,11 @@
 # Retails — Natural Language to SQL
 
 Ask a t-shirt store database questions in plain English. Powered by LLM + LangChain with a hybrid direct / few-shot fallback pipeline and a built-in validation layer.
-<<<<<<< HEAD
 
 **Live demo:** _<!-- TODO: Streamlit Cloud URL here -->_
 
 ![App screenshot](langchain_esra/screenshot.png)
-=======
->>>>>>> 259f13fc2c33ff9442e9b8a498fb782637e466de
 
-**Live demo:** _<!-- TODO: Streamlit Cloud URL here -->_
-
-![App screenshot](screenshot.png)
 ---
 
 ## Deploy - Live demo
@@ -41,7 +35,6 @@ Designed a **hybrid query-generation pipeline** with two paths and a validation 
    - **Result check**: rejects empty / all-`NULL` outputs.
 3. **Few-shot fallback (reliable path)** — on any validation failure, a `SemanticSimilarityExampleSelector` over ChromaDB picks the 2 most similar Q→SQL examples and the LLM regenerates.
 4. **Read-only execution** — all queries run via `sqlite3` in `mode=ro`, so writes are impossible even if the keyword filter were bypassed.
-<<<<<<< HEAD
 
 ```
 Question → Direct LLM → Validate → Execute (read-only) → Answer
@@ -57,20 +50,40 @@ Question → Direct LLM → Validate → Execute (read-only) → Answer
 
 ---
 ## Architecture
-=======
->>>>>>> 259f13fc2c33ff9442e9b8a498fb782637e466de
 
 ```
-Question → Direct LLM → Validate → Execute (read-only) → Answer
-                │
-                └── fail ──► Few-shot fallback ──► Answer
+User Question
+      │
+      ▼
+┌─────────────────────────┐
+│  1. Direct LLM          │  LLM generates SQL from schema description alone
+│     (fast path)         │
+└────────────┬────────────┘
+             │
+             ▼
+┌─────────────────────────┐
+│  2. Validation Layer    │  Checks: syntax errors, NULL/empty results,
+│                         │  suspicious aggregation outputs
+└────────────┬────────────┘
+             │
+     [pass] ─┤─ [fail]
+             │        │
+             │        ▼
+             │  ┌─────────────────────────────────────┐
+             │  │  3. Few-shot Fallback (reliable)     │
+             │  │  SemanticSimilarityExampleSelector   │
+             │  │  finds top-2 similar Q→SQL examples  │
+             │  │  from ChromaDB vector store,         │
+             │  │  then LLM generates correct SQL       │
+             │  └─────────────────────────────────────┘
+             │        │
+             └────────┘
+                  │
+                  ▼
+           Natural language answer
 ```
 
-### Result
-- **Safe by default**: prompt-injection attempts to run DDL/DML are rejected at the validation layer.
-- **Robust to LLM mistakes**: wrong-shape queries (e.g. returning 5 raw rows instead of one `SUM`) are caught by the intent check and auto-corrected via few-shot.
-- **Observable**: every question logs `Q → SQL → RESULT → STRATEGY` to `sql_queries.log`; the UI shows which strategy was used and the generated SQL.
-- **Pluggable LLMs**: Groq / Google Gemini / Ollama are swappable with a single config change.
+**Key design decision:** Direct LLM is tried first for speed. Few-shot learning is a fallback, not the default — this avoids the ChromaDB/embedding overhead on every request.
 
 
 
@@ -103,9 +116,4 @@ pip install -r requirements.txt
 streamlit run main.py
 ```
 
-<<<<<<< HEAD
-=======
-
-
 Push to GitHub, connect the repo on [share.streamlit.io](https://share.streamlit.io), add `GROQ_API_KEY` as a secret.
->>>>>>> 259f13fc2c33ff9442e9b8a498fb782637e466de
