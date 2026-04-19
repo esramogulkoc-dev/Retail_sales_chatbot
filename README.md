@@ -2,16 +2,9 @@
 
 Ask a t-shirt store database questions in plain English. Powered by LLM + LangChain with a hybrid direct / few-shot fallback pipeline and a built-in validation layer.
 
-**Live demo:** _<!-- TODO: Streamlit Cloud URL here -->_
-
 ![App screenshot](langchain_esra/screenshot.png)
 
 ---
-
-## Deploy - Live demo
-
-Deployed on Streamlit Community Cloud:
-_<!-- TODO: paste the deploy URL here -->_
 
 ## Project (STAR)
 
