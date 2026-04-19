@@ -2,6 +2,7 @@ import logging
 import os
 import re
 import sqlite3
+from turtle import st
 import uuid
 from typing import Optional
 
@@ -53,7 +54,7 @@ def _build_llm(temperature: float):
         return ChatGroq(
             model="llama-3.3-70b-versatile",
             temperature=temperature,
-            api_key=os.getenv("GROQ_API_KEY"),
+            api_key=st.secrets["GROQ_API_KEY"]
         )
     else:
         return ChatGoogleGenerativeAI(
